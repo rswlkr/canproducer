@@ -2,7 +2,6 @@ from kafka import KafkaProducer
 from kafka.errors import KafkaError
 import sys
 import can
-import json
 
 env = sys.argv[1]
 print(env)
@@ -21,11 +20,11 @@ if env == "linux":
 from can.interface import Bus
 bus = Bus()
 
-producer = KafkaProducer(bootstrap_servers=['localhost:9092'], api_version=(3,0,0), value_serializer=lambda m: json.dumps(m).encode('ascii'))
+producer = KafkaProducer(bootstrap_servers=['localhost:9092'], api_version=(3,0,0))
 
 for msg in bus:
     print(msg)
-    future = producer.send('cancar-events',  {'id': msg.arbitration_id, 'data': msg.data})
+    future = producer.send('cancar-events',  msg)
 
 
 # Asynchronous by default
