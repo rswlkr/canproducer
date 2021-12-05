@@ -24,7 +24,7 @@ producer = KafkaProducer(bootstrap_servers=['localhost:9092'], api_version=(3,0,
 
 for msg in bus:
     print(msg.data)
-    future = producer.send('cancar-events', msg.data)
+    future = producer.send('cancar-events',  msg.data)
 
 
 # Asynchronous by default
@@ -44,7 +44,7 @@ print (record_metadata.partition)
 print (record_metadata.offset)
 
 # produce keyed messages to enable hashed partitioning
-producer.send('cancar-events', key=b'foo', value=b'bar')
+# producer.send('cancar-events', key=b'foo', value=b'bar')
 
 
 # produce json messages
@@ -52,23 +52,23 @@ producer.send('cancar-events', key=b'foo', value=b'bar')
 # producer.send('json-topic', {'key': 'value'})
 
 # produce asynchronously
-for _ in range(100):
-    producer.send('cancar-events', b'msg')
+# for _ in range(100):
+#     producer.send('cancar-events', b'msg')
 
-def on_send_success(record_metadata):
-    print(record_metadata.topic)
-    print(record_metadata.partition)
-    print(record_metadata.offset)
-
-def on_send_error(excp):
-    log.error('I am an errback', exc_info=excp)
-    # handle exception
-
-# produce asynchronously with callbacks
-producer.send('cancar-events', b'raw_bytes').add_callback(on_send_success).add_errback(on_send_error)
-
-# block until all async messages are sent
-producer.flush()
+# def on_send_success(record_metadata):
+#     print(record_metadata.topic)
+#     print(record_metadata.partition)
+#     print(record_metadata.offset)
+#
+# def on_send_error(excp):
+#     log.error('I am an errback', exc_info=excp)
+#     # handle exception
+#
+# # produce asynchronously with callbacks
+# producer.send('cancar-events', b'raw_bytes').add_callback(on_send_success).add_errback(on_send_error)
+#
+# # block until all async messages are sent
+# producer.flush()
 
 # configure multiple retries
 producer = KafkaProducer(retries=5)
