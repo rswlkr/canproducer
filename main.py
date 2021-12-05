@@ -24,7 +24,7 @@ producer = KafkaProducer(bootstrap_servers=['localhost:9092'], api_version=(3,0,
 
 for msg in bus:
     print(msg)
-    future = producer.send('cancar-events',  msg)
+    future = producer.send('cancar-events',  key=msg.id, value=msg.data)
 
 
 # Asynchronous by default
