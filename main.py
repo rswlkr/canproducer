@@ -39,24 +39,7 @@ bus = Bus()
 
 for msg in bus:
     print(msg)
-    future = producer.send('cancar-events',  key=bytes(msg.id), value=bytes(msg.data))
-
-
-# Asynchronous by default
-print(future)
-
-# Block for 'synchronous' sends
-try:
-    record_metadata = future.get(timeout=10)
-except KafkaError:
-    # Decide what to do if produce request failed...
-    log.exception()
-    pass
-
-# Successful result returns assigned partition and offset
-print (record_metadata.topic)
-print (record_metadata.partition)
-print (record_metadata.offset)
+    future = producer.send('cancar-events', key=bytes(str(msg.arbitration_id), encoding='ascii'), value=bytes(msg.data))
 
 # produce keyed messages to enable hashed partitioning
 # producer.send('cancar-events', key=b'foo', value=b'bar')
@@ -84,6 +67,3 @@ print (record_metadata.offset)
 #
 # # block until all async messages are sent
 # producer.flush()
-
-# configure multiple retries
-producer = KafkaProducer(retries=5)
