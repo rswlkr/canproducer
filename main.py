@@ -17,10 +17,25 @@ if env == "linux":
       can.rc['channel'] = channel
       can.rc['bitrate'] = 500000
 
+producer = KafkaProducer(bootstrap_servers=['localhost:9092'],api_version=(3,0,0))
+
+# print(producer)
+# # Asynchronous by default
+#
+# future = producer.send('test', b'raw_bytes')
+#
+# # Block for 'synchronous' sends
+# try:
+#     record_metadata = future.get(timeout=2)
+#     print(record_metadata)
+# except KafkaError as err:
+#     # Decide what to do if produce request failed...
+#     print(err)
+#     pass
+
 from can.interface import Bus
 bus = Bus()
 
-producer = KafkaProducer(bootstrap_servers=['localhost:9092'], api_version=(3,0,0))
 
 for msg in bus:
     print(msg)
