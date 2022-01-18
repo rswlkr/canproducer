@@ -7,6 +7,8 @@ env = sys.argv[1]
 print("env: " + env)
 kafkaServer = sys.argv[2]
 print("server: " + kafkaServer)
+ch =sys.argv[3]
+print("can channel: " + ch)
 if env == "mac":
     can.rc['interface'] = 'virtual'
 #     can.rc['channel'] = 'PCAN_USBBUS1'
@@ -14,7 +16,7 @@ if env == "mac":
 #     can.rc['bitrate'] = 500000
 
 if env == "linux":
-      channel = sys.argv[2]
+      channel = ch
       can.rc['interface'] = 'socketcan'
       can.rc['channel'] = channel
       can.rc['bitrate'] = 500000
