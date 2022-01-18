@@ -4,7 +4,9 @@ import sys
 import can
 
 env = sys.argv[1]
-print(env)
+print("env: " + env)
+kafkaServer = sys.argv[2]
+print("server: " + kafkaServer)
 if env == "mac":
     can.rc['interface'] = 'virtual'
 #     can.rc['channel'] = 'PCAN_USBBUS1'
@@ -17,12 +19,12 @@ if env == "linux":
       can.rc['channel'] = channel
       can.rc['bitrate'] = 500000
 
-producer = KafkaProducer(bootstrap_servers=['localhost:9092'],api_version=(3,0,0))
+producer = KafkaProducer(bootstrap_servers=[kafkaServer],api_version=(3,0,0))
 
 # print(producer)
 # # Asynchronous by default
 #
-# future = producer.send('test', b'raw_bytes')
+# future = producer.send('cancar-events', b'raw_bytes')
 #
 # # Block for 'synchronous' sends
 # try:
