@@ -1,0 +1,4 @@
+can==0.0.0
+confluent_kafka==1.8.2
+pymongo==4.0.1
+python_can==3.3.4
